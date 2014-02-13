@@ -8,6 +8,7 @@ public class testPatientTriage {
     public static void main(String[] args) throws BoundaryViolationException {
         String patient;
         
+        
         PatientTriage patientTriage = new PatientTriage(new Time (3, 0)); //Time limit of 3 hours
         patientTriage.add(new Patient(1, 4, new Time (0, 30)));
         patientTriage.add(new Patient(2, 3, new Time (1, 45)));

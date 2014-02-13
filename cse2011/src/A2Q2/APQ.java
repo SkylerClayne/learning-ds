@@ -123,11 +123,16 @@ public class APQ<E> {
 																		// is
 																		// not
 																		// null.
-		boolean posNodeLessThanParent = comparator.compare(apq.get(pos),
-				apq.get(parentLocation)) < 0; // Check if node at pos is less
-												// than parent node.
 
-		if (posNodeIsNotNull && parentNodeIsNotNull) {
+		if (!(posNodeIsNotNull || parentNodeIsNotNull)) {
+			throw new NullPointerException();
+		} else if (posNodeIsNotNull && parentNodeIsNotNull) {
+
+			boolean posNodeLessThanParent = comparator.compare(apq.get(pos),
+					apq.get(parentLocation)) < 0; // Check if node at pos is
+													// less
+													// than parent node.
+
 			if ((pos > 0) && (posNodeLessThanParent)) {
 				swap(pos, parentLocation); // Swap up element at pos to parent.
 				pos = (pos) / 2; // Set pos equal to the parent location.
@@ -147,6 +152,11 @@ public class APQ<E> {
 	 */
 	private void downheap(int pos) {
 		// Basic algorithm opposite of upheap
+		boolean posNodeIsNotNull = apq.get(pos) != null; // Check if node at pos
+		// is not null.
+		if (!(posNodeIsNotNull)) {
+			throw new NullPointerException();
+		}
 
 		// index of pos's left and right child element for comparisons
 		int leftElement = (2 * pos);
@@ -156,27 +166,25 @@ public class APQ<E> {
 									// node.
 		boolean leftNodeExists = leftElement <= lastElementInAPQ; // Check if
 																	// left node
-		// exists.
-		boolean leftNodeIsSmaller = comparator.compare(apq.get(leftElement),
-				apq.get(currentSmallest)) < 0; // Check if left node is smaller
-												// then currentSmallest.
+																	// exists.
 		boolean rightNodeExists = rightElement <= lastElementInAPQ; // Check if
-																	// right
+		// right
 		// node exists
-		boolean rightNodeIsSmaller = comparator.compare(apq.get(rightElement),
-				apq.get(currentSmallest)) < 0; // Check if right node is smaller
-												// than currentSmallest.
 
 		// Check if an there exists an element left node position in apq && if
 		// it's less than node at pos set currentSmallest <- leftElement
-		if ((leftNodeExists) && (leftNodeIsSmaller)) {
+		if ((leftNodeExists)
+				&& (comparator.compare(apq.get(leftElement),
+						apq.get(currentSmallest)) < 0)) {
 
 			currentSmallest = leftElement;
 		}
 
 		// Check right side exists, if rightElement < currentSmallest then set
 		// currentSmallest <- rightElement
-		if ((rightNodeExists) && (rightNodeIsSmaller)) {
+		if ((rightNodeExists)
+				&& (comparator.compare(apq.get(rightElement),
+						apq.get(currentSmallest)) < 0)) {
 
 			currentSmallest = rightElement;
 		}
