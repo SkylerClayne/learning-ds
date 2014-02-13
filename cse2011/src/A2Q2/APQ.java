@@ -121,7 +121,8 @@ public class APQ<E> {
 
 		if (apq.get(pos) != null && apq.get(parentLocation) != null) {
 			if ((pos > 0)
-					&& (comparator.compare(apq.get(pos), apq.get(parentLocation)) < 0)) {
+					&& (comparator.compare(apq.get(pos),
+							apq.get(parentLocation)) < 0)) {
 
 				// Swap up element at pos to parent.
 				swap(pos, parentLocation);
@@ -146,8 +147,8 @@ public class APQ<E> {
 		// Basic algorithm opposite of upheap
 
 		// position of pos's left and right child element for comparisons
-		int leftElement = (2 * pos) + 1;
-		int rightElement = (2 * pos) + 2;
+		int leftElement = (2 * pos);
+		int rightElement = (2 * pos) + 1;
 		int listSize = apq.size() - 1;
 
 		// hold index of the smallest element among pos, leftElement, and
@@ -158,38 +159,43 @@ public class APQ<E> {
 		// element smaller than node i?
 
 		// Check left side
-		if ((leftElement <= listSize)
-				&& (comparator.compare(apq.get(leftElement), apq.get(pos)) < 0)) {
 
-			currentSmallest = leftElement; // yes, so the left child is the
-											// largest so far
-		} else {
 
-			currentSmallest = pos; // no, so node pos is the smallest so far
-		}
-		// Is there a right child and, if so, does the right child have an
-		// element smaller than the larger of node i and the left child?
+			if ((leftElement <= listSize)
+					&& (comparator.compare(apq.get(leftElement), apq.get(pos)) < 0)) {
 
-		// Check right side exists, check is right is bigger than current
-		// smallest.
-		if ((rightElement <= listSize)
-				&& (comparator.compare(apq.get(rightElement),
-						apq.get(currentSmallest)) < 0)) {
+				currentSmallest = leftElement; // yes, so the left child is the
+												// largest so far
+			} else {
 
-			//
-			currentSmallest = rightElement; // yes, so the right child is the
-											// largest
-		}
-		// If node i holds an element smaller than both the left and right
-		// children, then the max-heap property already held, and we need do
-		// nothing more. Otherwise, we need to swap node i with the larger
-		// of the two children, and then recurse down the heap from the larger
-		// child.
+				currentSmallest = pos; // no, so node pos is the smallest so far
+			}
+			// Is there a right child and, if so, does the right child have an
+			// element smaller than the larger of node i and the left child?
 
-		if (currentSmallest != pos) {
-			swap(pos, currentSmallest);
-			downheap(currentSmallest);
-		}
+			// Check right side exists, check is right is bigger than current
+			// smallest.
+			if ((rightElement <= listSize)
+					&& (comparator.compare(apq.get(rightElement),
+							apq.get(currentSmallest)) < 0)) {
+
+				//
+				currentSmallest = rightElement; // yes, so the right child is
+												// the
+												// largest
+			}
+			// If node i holds an element smaller than both the left and right
+			// children, then the max-heap property already held, and we need do
+			// nothing more. Otherwise, we need to swap node i with the larger
+			// of the two children, and then recurse down the heap from the
+			// larger
+			// child.
+
+			if (currentSmallest != pos) {
+				swap(pos, currentSmallest);
+				downheap(currentSmallest);
+			}
+
 	}
 
 	/**
