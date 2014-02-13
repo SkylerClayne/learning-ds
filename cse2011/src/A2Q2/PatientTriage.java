@@ -44,9 +44,6 @@ public class PatientTriage {
 		if (patient == null) {
 			throw new NullPointerException();
 		}
-
-		// check patient priority and time already in APQ.
-		// if priority is less than
 		priorityHeap.offer(patient); // add to priority queue
 		timeHeap.offer(patient); // add to arrival time queue
 
@@ -72,13 +69,11 @@ public class PatientTriage {
 		int timeWaited = currentIntTime - arivalTime;
 		// peek at timeHeap, if the difference between the patients arrival time
 		// and the current time is >= the max waiting time
-		if ( timeWaited >= maxWaitInt ) {
+		if (timeWaited >= maxWaitInt) {
 			return timeHeap.poll(); // poll timeHeap and give return
-									// that
-			// element.
+									// that element.
 		} else {
-			return priorityHeap.poll(); // else take from priority
-										// queue.
+			return priorityHeap.poll(); // else take from priority queue.
 		}
 	}
 
