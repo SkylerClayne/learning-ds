@@ -62,23 +62,24 @@ public class PatientTriage {
 			BoundaryViolationException {
 
 		// Algorithm discussed in comments.
-
 		// Get integer values of waiting times.
-		int minutesWaited = (timeHeap.peek().getArrivalTime().getHour() * 60)
+		int arivalTime = (timeHeap.peek().getArrivalTime().getHour() * 60)
 				+ timeHeap.peek().getArrivalTime().getMinute();
 		int currentIntTime = (currentTime.getHour() * 60)
 				+ currentTime.getMinute();
 		int maxWaitInt = (maxWait.getHour() * 60) + maxWait.getMinute();
 
+		int timeWaited = currentIntTime - arivalTime;
 		// peek at timeHeap, if the difference between the patients arrival time
 		// and the current time is >= the max waiting time
-		if ((currentIntTime - minutesWaited) >= maxWaitInt) {
-			return timeHeap.poll(); // poll timeHeap and give return that
-									// element.
+		if ( timeWaited >= maxWaitInt ) {
+			return timeHeap.poll(); // poll timeHeap and give return
+									// that
+			// element.
 		} else {
-			return priorityHeap.poll(); // else take from priority queue.
+			return priorityHeap.poll(); // else take from priority
+										// queue.
 		}
-
 	}
 
 	/**

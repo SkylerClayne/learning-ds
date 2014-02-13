@@ -50,17 +50,8 @@ public class APQ<E> {
 			throw new NullPointerException();
 		} else {
 
-			//
 			apq.add(e);
 			upheap(apq.indexOf(e));
-
-			// SORT APQ
-			/*
-			 * for(E a: apq) { // +'ve if a > e; 0 if a = e; otherwise -'ve if
-			 * (comparator.compare(a, e) > 0){ apq.add(apq.indexOf(a) + 1 , e);
-			 * upheap(apq.indexOf(a) + 1); } else { apq.add(e);
-			 * upheap(apq.indexOf(e)); } }
-			 */
 
 		}
 	}
@@ -90,8 +81,10 @@ public class APQ<E> {
 	public E poll() {
 
 		// implement this method
-		E removed = apq.remove(0);
-		upheap(1);
+		E removed = apq.remove(1);
+		if (!(apq.size() == 2)) {
+			downheap(1);
+		}
 		return removed;
 	}
 
@@ -122,20 +115,23 @@ public class APQ<E> {
 	private void upheap(int pos) {
 
 		// Index of parent
-		int parentLocation = (pos - 1) / 2;
-		
+		int parentLocation = (pos) / 2;
+
 		// +'ve if a > e; 0 if a = e; otherwise -'ve i
-		if ((pos > 0)
-				&& (comparator.compare(apq.get(pos), apq.get(parentLocation)) > 0)) {
 
-			// Swap up element at pos to parent.
-			swap(pos, parentLocation);
+		if (apq.get(pos) != null && apq.get(parentLocation) != null) {
+			if ((pos > 0)
+					&& (comparator.compare(apq.get(pos), apq.get(parentLocation)) < 0)) {
 
-			// Set pos equal to the parent location.
-			pos = (pos - 1) / 2;
+				// Swap up element at pos to parent.
+				swap(pos, parentLocation);
 
-			// Recurse.
-			upheap(pos);
+				// Set pos equal to the parent location.
+				pos = (pos) / 2;
+
+				// Recurse.
+				upheap(pos);
+			}
 		}
 	}
 
@@ -154,7 +150,8 @@ public class APQ<E> {
 		int rightElement = (2 * pos) + 2;
 		int listSize = apq.size() - 1;
 
-		// hold index of the smallest element among pos, leftElement, and rightElement
+		// hold index of the smallest element among pos, leftElement, and
+		// rightElement
 		int currentSmallest;
 
 		// Is there a left child and, if so, does the left child have an
