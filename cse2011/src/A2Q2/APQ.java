@@ -44,15 +44,12 @@ public class APQ<E> {
 	 * @throws NullPointerException
 	 */
 	public void offer(E e) throws NullPointerException {
-		// implement this method
 
 		if (e.equals(null)) {
 			throw new NullPointerException();
 		} else {
-
-			apq.add(e);
-			upheap(apq.indexOf(e));
-
+			apq.add(e); // If the elements not null, add it to the list.
+			upheap(apq.indexOf(e)); // Restore minheap property.
 		}
 	}
 
@@ -65,9 +62,10 @@ public class APQ<E> {
 	 */
 	public void remove(int pos) throws BoundaryViolationException {
 
+		// If there are elements in apq and index in question is > 0
 		if ((apq.size() > pos) && (pos > 0)) {
-			apq.remove(pos);
-			downheap(pos);
+			apq.remove(pos); // Remove node at pos in apq.
+			downheap(pos); // Restore minheap property.
 		} else {
 			throw new BoundaryViolationException();
 		}
@@ -80,10 +78,10 @@ public class APQ<E> {
 	 */
 	public E poll() {
 
-		// implement this method
+		// grab the min element, the one at the top of the heap.
 		E removed = apq.remove(1);
 		if (!(apq.size() == 2)) {
-			downheap(1);
+			downheap(1); // restore minheap property.
 		}
 		return removed;
 	}
@@ -114,26 +112,28 @@ public class APQ<E> {
 	 */
 	private void upheap(int pos) {
 
-		// Index of parent
-		int parentLocation = (pos) / 2;
+		int parentLocation = (pos) / 2; // Index of parent.
+		boolean posNodeIsNotNull = apq.get(pos) != null; // Check if node at pos
+															// is not null.
+		boolean parentNodeIsNotNull = apq.get(parentLocation) != null; // Check
+																		// if
+																		// node
+																		// at
+																		// pos
+																		// is
+																		// not
+																		// null.
+		boolean posNodeLessThanParent = comparator.compare(apq.get(pos),
+				apq.get(parentLocation)) < 0; // Check if node at pos is less
+												// than parent node.
 
-		// +'ve if a > e; 0 if a = e; otherwise -'ve i
-
-		if (apq.get(pos) != null && apq.get(parentLocation) != null) {
-			if ((pos > 0)
-					&& (comparator.compare(apq.get(pos),
-							apq.get(parentLocation)) < 0)) {
-
-				// Swap up element at pos to parent.
-				swap(pos, parentLocation);
-
-				// Set pos equal to the parent location.
-				pos = (pos) / 2;
-
-				// Recurse.
-				upheap(pos);
+		if (posNodeIsNotNull && parentNodeIsNotNull) {
+			if ((pos > 0) && (posNodeLessThanParent)) {
+				swap(pos, parentLocation); // Swap up element at pos to parent.
+				pos = (pos) / 2; // Set pos equal to the parent location.
+				upheap(pos); // Recurse.
 			} else {
-				return;
+				return; // Drop off if recursive case fails.
 			}
 		}
 	}
@@ -148,48 +148,48 @@ public class APQ<E> {
 	private void downheap(int pos) {
 		// Basic algorithm opposite of upheap
 
-		// position of pos's left and right child element for comparisons
+		// index of pos's left and right child element for comparisons
 		int leftElement = (2 * pos);
 		int rightElement = (2 * pos) + 1;
-		int listSize = apq.size() - 1;
+		int lastElementInAPQ = apq.size() - 1; // last index of apq.
+		int currentSmallest = pos; // Holds the index of the currentSmallest
+									// node.
+		boolean leftNodeExists = leftElement <= lastElementInAPQ; // Check if
+																	// left node
+		// exists.
+		boolean leftNodeIsSmaller = comparator.compare(apq.get(leftElement),
+				apq.get(currentSmallest)) < 0; // Check if left node is smaller
+												// then currentSmallest.
+		boolean rightNodeExists = rightElement <= lastElementInAPQ; // Check if
+																	// right
+		// node exists
+		boolean rightNodeIsSmaller = comparator.compare(apq.get(rightElement),
+				apq.get(currentSmallest)) < 0; // Check if right node is smaller
+												// than currentSmallest.
 
-		// holds index of the smallest element among pos, leftElement, and
-		// rightElement
-		int currentSmallest = pos;
-
-		// Check if a left node exists && if it's less than node at pos set
-		// currentSmallest <- leftElement
-		if ((leftElement <= listSize)
-				&& (comparator.compare(apq.get(leftElement), apq.get(pos)) < 0)) {
+		// Check if an there exists an element left node position in apq && if
+		// it's less than node at pos set currentSmallest <- leftElement
+		if ((leftNodeExists) && (leftNodeIsSmaller)) {
 
 			currentSmallest = leftElement;
 		}
 
-		/*
-		 * else {
-		 * 
-		 * currentSmallest = pos; // else set currentSmallest <- pos }
-		 */
-
 		// Check right side exists, if rightElement < currentSmallest then set
 		// currentSmallest <- rightElement
-		if ((rightElement <= listSize)
-				&& (comparator.compare(apq.get(rightElement),
-						apq.get(currentSmallest)) < 0)) {
+		if ((rightNodeExists) && (rightNodeIsSmaller)) {
 
-					currentSmallest = rightElement;
+			currentSmallest = rightElement;
 		}
-		// If node at pos holds an element smaller than both the left and right
-		// children, then the max-heap property already held, and we need do
-		// nothing more. Otherwise, we need to swap node at pos with the larger
-		// of the two children, and then recurse down the heap from the
-		// larger
-		// child.
 
-		
+		// if the index of the currentSmallest is not the position of the
+		// node in question then swap the node in question with the current
+		// smallest and recurse till the node in question is the smallest node.
 		if (currentSmallest != pos) {
-			swap(pos, currentSmallest);
-			downheap(currentSmallest);
+			swap(pos, currentSmallest); // Swap the element at pos with the
+										// current smallest.
+			downheap(currentSmallest); // Recurse.
+		} else {
+			return; // Drop off if recursive case fails.
 		}
 
 	}
