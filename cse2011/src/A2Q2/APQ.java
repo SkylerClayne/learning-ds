@@ -106,6 +106,10 @@ public class APQ<E> {
 	public boolean isEmpty() {
 		return (size() == 0);
 	}
+	
+	public int find(E e){
+		return apq.indexOf(e);
+	}
 
 	public int size() {
 		return apq.size() - 1; // dummy node at location 0

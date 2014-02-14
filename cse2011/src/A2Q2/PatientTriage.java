@@ -58,6 +58,7 @@ public class PatientTriage {
 	public Patient remove(Time currentTime) throws NullPointerException,
 			BoundaryViolationException {
 
+		Patient placeHolder;
 		// Algorithm discussed in comments.
 		// Get integer values of waiting times.
 		int arivalTime = (timeHeap.peek().getArrivalTime().getHour() * 60)
@@ -70,10 +71,15 @@ public class PatientTriage {
 		// peek at timeHeap, if the difference between the patients arrival time
 		// and the current time is >= the max waiting time
 		if (timeWaited >= maxWaitInt) {
-			return timeHeap.poll(); // poll timeHeap and give return
+			placeHolder = timeHeap.poll();
+		//	priorityHeap.remove(priorityHeap.find(placeHolder));
+			return placeHolder; // poll timeHeap and give return
 									// that element.
+			
 		} else {
-			return priorityHeap.poll(); // else take from priority queue.
+			placeHolder = priorityHeap.poll();
+		//	timeHeap.remove(timeHeap.find(placeHolder));
+			return placeHolder; // else take from priority queue.
 		}
 	}
 
