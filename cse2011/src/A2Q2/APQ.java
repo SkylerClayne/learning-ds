@@ -80,7 +80,13 @@ public class APQ<E> {
 	public E poll() {
 
 		// grab the min element, the one at the top of the heap.
-		E removed = apq.remove(1);
+		E removed = apq.get(1);
+		try {
+			remove(1);
+		} catch (BoundaryViolationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (!(apq.size() == 2)) {
 			downheap(1); // restore minheap property.
 		}
