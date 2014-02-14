@@ -64,7 +64,7 @@ public class APQ<E> {
 
 		// If there are elements in apq and index in question is > 0
 		if ((apq.size() > pos) && (pos > 0)) {
-			swap(pos, size());	// Swap position with the last element
+			swap(pos, size()); // Swap position with the last element
 			apq.remove(size()); // Remove node at last position in apq, O(1).
 			downheap(pos); // Restore minheap property.
 		} else {
