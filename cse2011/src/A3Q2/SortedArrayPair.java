@@ -38,28 +38,28 @@ public class SortedArrayPair<E extends Comparable<E>> {
 	 */
 	public E kthSmallestOfUnion(int k) throws RankOutOfRangeException {
 		// implement this method
+		int indexA1 = 0;
+		int indexA2 = 0;
 
-		if (k < 1 || k > this.A1.length * 2) {
+		if (k < 1 || k > (this.A1.length - 1)) {
 			throw new RankOutOfRangeException("Range out of bounds!");
 		}
 
-	}
-
-	private E binarySearch(E[] A, E key) {
-		E element = A[middle];
-		E p = A[0];
-		E q = A[A.length];
-		middle = (int) Math.floor((A.length / 2));
-		while (!(q.compareTo(p) > 0)) {
-			middle = ( middle / 2);
-			if(key.compareTo(A[middle]) > 0){
-				
-			} else if(key.compareTo(A[middle]) > 0){
-				
+		while (((indexA1 + indexA2) + 2) <= k) {
+			if (A1[indexA1].compareTo(A2[indexA2]) < 0) {
+				indexA1 = indexA1 + 1;
+			} else if (A1[indexA1].compareTo(A2[indexA2]) > 0) {
+				indexA2 = indexA2 + 1;
 			}
 		}
 
-		return element;
+		if (A1[indexA1].compareTo(A2[indexA2]) < 0) {
+			return A1[indexA1];
+		} else if (A1[indexA1].compareTo(A2[indexA2]) > 0) {
+			return A2[indexA2];
+		} else
+			return null;
 
 	}
+
 }
