@@ -94,8 +94,24 @@ public class CSEPreReqs {
 	 * number given by startCourseNumber
 	 */
 	private boolean path(Course newCourse, int startCourseNumber) {
-		// implement this method
-		return (false);
+
+		ListIterator<Course> courseIterator = newCourse.preReqIterator();
+		boolean isCircular = false; // temp variable
+
+		while (courseIterator.hasNext()) {
+			Course newCoursePreReq = courseIterator.next();
+			newCoursePreReq.setVisited(true);
+			if (isCircular) { // base case
+				return false;
+			} else if (newCoursePreReq.getCourseNumber() == startCourseNumber) {
+				return true; // case to determine acyclic
+			} else {
+				isCircular = path(newCoursePreReq, startCourseNumber); // recurse
+			}
+
+		}
+
+		return (isCircular);
 	}
 
 	/*
@@ -109,6 +125,14 @@ public class CSEPreReqs {
 	boolean validateCourseSequence(int[] sequence)
 			throws InvalidCourseNumberException, NoSuchElementException {
 		// implement this method
+		// Iterator<Course> courseIt = this.courses.iterator();
+		int index = 0;
+		while (index != sequence.length) {
+			Course course = getCourse(sequence[index++]);
+			if (!course.canTakeCourse()) {
+				return false;
+			}
+		}
 		return (true);
 	}
 
