@@ -1,10 +1,12 @@
 # Data Structures and Algorithms
 
 -------------------------------------
+:dash: :kiss: :gun:
 
 ## Description
 
   Contains fully implemented projects from 2nd year algorithms at York University.  
+  Terrible, terrible code but I keep it as a reference point to see where I've came from and how my abilities have came along. So many things I would like to change but that would dampen my sorry memories.  #prodigalcoder 
   
   All code written in Java.
 
